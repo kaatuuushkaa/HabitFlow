@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colors, spacing, radii } from '../theme';
 import { Habit } from '../constants/habits';
+import { useAppStore } from '../store/useAppStore';
 
 type Props = {
     habit: Habit;
@@ -9,6 +10,9 @@ type Props = {
 };
 
 export function HabitCard({ habit, onPress }: Props) {
+    const favoriteHabitIds = useAppStore((s) => s.favoriteHabitIds);
+    const toggleFavorite   = useAppStore((s) => s.toggleFavorite);
+    const isFavorite = favoriteHabitIds.includes(habit.id);
     return (
         <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
             {/* Цветная полоска слева */}
@@ -17,6 +21,9 @@ export function HabitCard({ habit, onPress }: Props) {
             <View style={styles.content}>
                 <View style={styles.row}>
                     <Text style={styles.title}>{habit.title}</Text>
+                    <TouchableOpacity onPress={() => toggleFavorite(habit.id)} style={{ marginLeft: 8 }}>
+                        <Text style={{ fontSize: 18 }}>{isFavorite ? '⭐' : '☆'}</Text>
+                    </TouchableOpacity>
                     <Text style={styles.streak}>🔥 {habit.streak}</Text>
                 </View>
 
