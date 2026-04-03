@@ -1,34 +1,55 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { colors, spacing } from '../theme';
+import { View, Text, ScrollView, StyleSheet, useWindowDimensions } from 'react-native';
+import { useAppTheme }  from '../theme/useAppTheme';
+import { useAppStore }  from '../store/useAppStore';
 import { SectionCard }  from '../components/SectionCard';
-import { useAppStore } from '../store/useAppStore';
+import { spacing }      from '../theme';
 
 export function HomeScreen() {
+    const colors           = useAppTheme();
+    const { width }        = useWindowDimensions();
+    const isTablet         = width >= 768;
     const currentUser      = useAppStore((s) => s.currentUser);
     const favoriteHabitIds = useAppStore((s) => s.favoriteHabitIds);
 
     return (
-        <View style={styles.screen}>
-            <ScrollView contentContainerStyle={styles.content}>
-                <Text style={styles.title}>HabitFlow</Text>
-                <Text style={styles.subtitle}>Отслеживание привычек и целей</Text>
+        <View style={{ flex: 1, backgroundColor: colors.background }}>
+            <ScrollView
+                contentContainerStyle={[
+                    styles.content,
+                    isTablet && styles.contentWide,
+                ]}
+            >
+                <Text style={[styles.title, { color: colors.text }]}>HabitFlow</Text>
+                <Text style={[styles.subtitle, { color: colors.muted }]}>
+                    Отслеживание привычек и целей
+                </Text>
 
                 <SectionCard title="Мой аккаунт">
-                    <Text style={styles.row}>👤 Пользователь:{' '}
-                        <Text style={styles.val}>{currentUser?.name ?? 'Гость'}</Text>
+                    <Text style={[styles.row, { color: colors.muted }]}>
+                        👤 Пользователь:{' '}
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                            {currentUser?.name ?? 'Гость'}
+                        </Text>
                     </Text>
-                    <Text style={styles.row}>📧 Email:{' '}
-                        <Text style={styles.val}>{currentUser?.email ?? '—'}</Text>
+                    <Text style={[styles.row, { color: colors.muted }]}>
+                        📧 Email:{' '}
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                            {currentUser?.email ?? '—'}
+                        </Text>
                     </Text>
                 </SectionCard>
 
                 <SectionCard title="Статистика">
-                    <Text style={styles.row}>⭐ Избранных привычек:{' '}
-                        <Text style={styles.val}>{favoriteHabitIds.length}</Text>
+                    <Text style={[styles.row, { color: colors.muted }]}>
+                        ⭐ Избранных привычек:{' '}
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                            {favoriteHabitIds.length}
+                        </Text>
                     </Text>
-                    <Text style={styles.row}>📋 Всего привычек:{' '}
-                        <Text style={styles.val}>8</Text>
+                    <Text style={[styles.row, { color: colors.muted }]}>
+                        📋 Всего привычек:{' '}
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>8</Text>
                     </Text>
                 </SectionCard>
             </ScrollView>
@@ -37,10 +58,9 @@ export function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    screen:   { flex: 1, backgroundColor: colors.background },
-    content:  { padding: spacing.lg, paddingTop: 60 },
-    title:    { fontSize: 32, fontWeight: '800', color: '#fff', marginBottom: 4 },
-    subtitle: { fontSize: 15, color: colors.muted, marginBottom: spacing.xl },
-    row:      { fontSize: 15, color: colors.muted, marginBottom: spacing.sm },
-    val:      { color: colors.text, fontWeight: '600' },
+    content:     { padding: spacing.lg, paddingTop: 60 },
+    contentWide: { padding: 48, maxWidth: 720, alignSelf: 'center' },
+    title:       { fontSize: 32, fontWeight: '800', marginBottom: 4 },
+    subtitle:    { fontSize: 15, marginBottom: spacing.xl },
+    row:         { fontSize: 15, marginBottom: spacing.sm },
 });

@@ -40,3 +40,27 @@ export const appConfig = {
         'отслеживать прогресс и получать мотивацию каждый день.',
     ctaLabel: 'Начать →',
 };
+
+export const lightColors = {
+    background: '#F8FAFC',
+    surface:    '#FFFFFF',
+    accent:     '#6366F1',
+    accentLight:'#818CF8',
+    text:       '#0F172A',
+    muted:      '#64748B',
+    success:    '#22C55E',
+    border:     '#E2E8F0',
+};
+
+export const darkColors = {
+    background: '#0F172A',
+    surface:    '#1E293B',
+    accent:     '#6366F1',
+    accentLight:'#818CF8',
+    text:       '#F8FAFC',
+    muted:      '#94A3B8',
+    success:    '#22C55E',
+    border:     '#334155',
+};
+
+export type ThemeColors = typeof darkColors;

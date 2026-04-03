@@ -1,34 +1,27 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing, radii } from '../theme';
+import { useAppTheme } from '../theme/useAppTheme';
+import { spacing, radii } from '../theme';
 
-type Props = {
-    title: string;
-    children: React.ReactNode;
-};
+type Props = { title: string; children: React.ReactNode };
 
 export function SectionCard({ title, children }: Props) {
+    const colors = useAppTheme();
     return (
-        <View style={styles.card}>
-            <Text style={styles.title}>{title}</Text>
+        <View style={[
+            styles.card,
+            { backgroundColor: colors.surface, borderColor: colors.border },
+        ]}>
+            <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
             {children}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    card: {
-        backgroundColor: colors.surface,
-        borderRadius: radii.md,
-        padding: spacing.md,
-        marginBottom: spacing.md,
-        borderWidth: 1,
-        borderColor: colors.border,
+    card:  {
+        borderRadius: radii.md, padding: spacing.md,
+        marginBottom: spacing.md, borderWidth: 1,
     },
-    title: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: colors.text,
-        marginBottom: spacing.sm,
-    },
+    title: { fontSize: 16, fontWeight: '700', marginBottom: spacing.sm },
 });

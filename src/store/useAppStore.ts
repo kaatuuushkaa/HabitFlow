@@ -12,6 +12,10 @@ type AppState = {
     setCurrentUser: (user: UserProfile | null) => void;
     logout:         () => void;
     toggleFavorite: (habitId: string) => void;
+    avatarUri: string | null;
+    setAvatarUri: (uri: string | null) => void;
+    themeMode:   'light' | 'dark';
+    toggleTheme: () => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -28,4 +32,10 @@ export const useAppStore = create<AppState>((set) => ({
                 ? state.favoriteHabitIds.filter((id) => id !== habitId)
                 : [...state.favoriteHabitIds, habitId],
         })),
+    avatarUri: null,
+    setAvatarUri: (uri) => set({ avatarUri: uri }),
+    themeMode:   'dark',  // по умолчанию тёмная (уже привычная)
+    toggleTheme: () => set((s) => ({
+        themeMode: s.themeMode === 'dark' ? 'light' : 'dark',
+    })),
 }));
